@@ -5,3 +5,32 @@ dist
 .trae
 .log
 .figma
+
+# Development files
+.env.local
+.env.*.local
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+vitest.config.js
+
+# Documentation for deploy
+README_DEVELOPMENT.md
+CONTRIBUTING.md
+.github
+
+# Scripts
+scripts/

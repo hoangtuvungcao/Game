@@ -1,0 +1,329 @@
+/**
+ * Game UI Stylesheet
+ * 
+ * Provides modern, responsive styling for the tactical auto-battle game.
+ * Designed to work seamlessly across mobile, tablet, PC, and Mac devices.
+ */
+
+:root {
+  /* Color Palette */
+  --color-bg-primary: #0f1a2b;
+  --color-bg-secondary: #12263a;
+  --color-bg-tertiary: #1a2a3a;
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b7d9ff;
+  --color-text-tertiary: #7a8fa0;
+  
+  --color-accent-cyan: #00d4ff;
+  --color-accent-teal: #2f8f6f;
+  --color-accent-blue: #2b5874;
+  --color-accent-red: #8f3b2f;
+  
+  --color-border-light: #4a7a8f;
+  --color-border-bright: #8bc8ff;
+  
+  /* Typography */
+  --font-family-primary: 'Arial', 'Segoe UI', sans-serif;
+  --font-family-monospace: 'Consolas', 'Monaco', monospace;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+}
+
+/* Responsive Typography */
+@media (max-width: 480px) {
+  :root {
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 20px;
+    --font-size-xl: 28px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  :root {
+    --font-size-xs: 13px;
+    --font-size-sm: 15px;
+    --font-size-md: 17px;
+    --font-size-lg: 22px;
+    --font-size-xl: 32px;
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    --font-size-xs: 14px;
+    --font-size-sm: 16px;
+    --font-size-md: 18px;
+    --font-size-lg: 24px;
+    --font-size-xl: 36px;
+  }
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Game Container */
+#app {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* UI Components - Cards */
+.game-card {
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  transition: all var(--transition-fast);
+}
+
+.game-card:hover {
+  border-color: var(--color-accent-cyan);
+  background-color: var(--color-bg-secondary);
+}
+
+.game-card.selected {
+  border-color: var(--color-accent-cyan);
+  background-color: var(--color-bg-secondary);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+}
+
+/* UI Components - Buttons */
+.game-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.game-button:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-accent-cyan);
+}
+
+.game-button:active {
+  transform: scale(0.98);
+}
+
+.game-button.primary {
+  background-color: var(--color-accent-teal);
+  border-color: #8bffd7;
+}
+
+.game-button.primary:hover {
+  background-color: #3fa585;
+}
+
+.game-button.secondary {
+  background-color: var(--color-accent-blue);
+  border-color: #9cd0ff;
+}
+
+.game-button.secondary:hover {
+  background-color: #3a6fa5;
+}
+
+.game-button.danger {
+  background-color: var(--color-accent-red);
+  border-color: #ffc0cf;
+}
+
+.game-button.danger:hover {
+  background-color: #a84a38;
+}
+
+/* UI Components - Panels */
+.game-panel {
+  background-color: rgba(15, 26, 43, 0.97);
+  border: 2px solid var(--color-accent-cyan);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.game-panel-header {
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--color-border-light);
+  padding-bottom: var(--spacing-md);
+}
+
+.game-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* UI Components - Lists */
+.game-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.game-list-item {
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.game-list-item:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-accent-cyan);
+}
+
+.game-list-item.selected {
+  background-color: rgba(47, 143, 111, 0.2);
+  border-color: var(--color-accent-teal);
+}
+
+/* Responsive Layouts */
+@media (max-width: 480px) {
+  .game-card {
+    padding: var(--spacing-sm);
+  }
+  
+  .game-button {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  .game-panel {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .game-button,
+  .game-card,
+  .game-list-item {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Loading Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.game-loading {
+  animation: spin 2s linear infinite;
+}
+
+/* Toast Notifications */
+.game-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-bg-tertiary);
+  border: 2px solid var(--color-accent-cyan);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  z-index: 1000;
+  animation: slideUp var(--transition-normal) ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus states for keyboard navigation */
+.game-button:focus,
+.game-card:focus,
+.game-list-item:focus {
+  outline: 2px solid var(--color-accent-cyan);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  #app {
+    display: none;
+  }
+}
