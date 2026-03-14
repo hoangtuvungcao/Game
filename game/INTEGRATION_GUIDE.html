@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Giao diện trò chơi chiến thuật - Responsive Game UI for Forest Master">
+    <meta name="theme-color" content="#0f1a2b">
+    <title>Game UI Redesign - Integration Guide</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f1a2b 0%, #12263a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #7dd3fc;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #00d4ff;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            color: #a0d4ff;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            background: rgba(26, 42, 58, 0.8);
+            border: 2px solid #2a7a5e;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .section.highlight {
+            background: rgba(47, 143, 111, 0.1);
+            border-color: #2f8f6f;
+        }
+        
+        .code-block {
+            background: #0c1522;
+            border: 1px solid #4a7a8f;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #7dd3fc;
+        }
+        
+        .code-block code {
+            color: inherit;
+        }
+        
+        .file-path {
+            color: #ffa500;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2f8f6f;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .step {
+            background: rgba(15, 26, 43, 0.6);
+            border-left: 4px solid #2f8f6f;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #2f8f6f;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(15, 26, 43, 0.6);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #4a7a8f;
+        }
+        
+        th {
+            background: #1a3a4a;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: rgba(47, 143, 111, 0.1);
+        }
+        
+        .note {
+            background: rgba(139, 69, 19, 0.2);
+            border-left: 4px solid #ffa500;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: rgba(143, 59, 47, 0.2);
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: rgba(47, 143, 111, 0.2);
+            border-left: 4px solid #2f8f6f;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #4a7a8f;
+        }
+        
+        .comparison-item.good {
+            border-color: #2f8f6f;
+            background: rgba(47, 143, 111, 0.1);
+        }
+        
+        .comparison-item.bad {
+            border-color: #8f3b2f;
+            background: rgba(143, 59, 47, 0.1);
+        }
+        
+        .comparison-item.good:before {
+            content: "✓ DO";
+            color: #2f8f6f;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .comparison-item.bad:before {
+            content: "✗ DON'T";
+            color: #8f3b2f;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #4a7a8f;
+            color: #7a8fa0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.4em; }
+            h3 { font-size: 1.1em; }
+            .code-block { font-size: 0.85em; }
+            .comparison-table { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Game UI Redesign</h1>
+            <p>Hướng Dẫn Tích Hợp Giao Diện Trò Chơi</p>
+            <p style="color: #7a8fa0; margin-top: 10px;">Integration Guide for Responsive Game Interface</p>
+        </header>
+
+        <!-- Tổng Quan -->
+        <section class="section highlight">
+            <h2>📋 Tổng Quan / Overview</h2>
+            <p>Bộ thành phần UI mới được thiết kế hoàn toàn từ đầu để cung cấp:</p>
+            <ul class="feature-list">
+                <li>Giao diện hiện đại và tối giản (Modern & Minimalist)</li>
+                <li>Hỗ trợ đầy đủ responsive (Mobile, Tablet, PC, Mac)</li>
+                <li>Dễ bảo trì và mở rộng (Maintainable & Extensible)</li>
+                <li>Tuân thủ tiêu chuẩn accessibility (WCAG 2.1)</li>
+                <li>Tối ưu hiệu suất cao (High Performance)</li>
+            </ul>
+        </section>
+
+        <!-- Các Tệp Mới -->
+        <section class="section">
+            <h2>📁 Các Tệp Mới Được Tạo / New Files</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tệp</th>
+                        <th>Mục Đích</th>
+                        <th>Loại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="file-path">src/ui/GameModeSelector.js</span></td>
+                        <td>Thành phần chọn chế độ chơi</td>
+                        <td>Component</td>
+                    </tr>
+                    <tr>
+                        <td><span class="file-path">src/ui/GameUIOverlay.js</span></td>
+                        <td>Lớp UI chính cho toàn trò chơi</td>
+                        <td>Component</td>
+                    </tr>
+                    <tr>
+                        <td><span class="file-path">src/ui/GameModeIntegrationExample.js</span></td>
+                        <td>Ví dụ tích hợp và hướng dẫn</td>
+                        <td>Example</td>
+                    </tr>
+                    <tr>
+                        <td><span class="file-path">public/game-ui.css</span></td>
+                        <td>Stylesheet toàn trò chơi</td>
+                        <td>CSS</td>
+                    </tr>
+                    <tr>
+                        <td><span class="file-path">GAME_UI_REDESIGN.md</span></td>
+                        <td>Tài liệu thiết kế chi tiết</td>
+                        <td>Documentation</td>
+                    </tr>
+                    <tr>
+                        <td><span class="file-path">UI_COMPONENTS_GUIDE.md</span></td>
+                        <td>Hướng dẫn nhà phát triển</td>
+                        <td>Documentation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Bước Tích Hợp -->
+        <section class="section">
+            <h2>🚀 Bước Tích Hợp / Integration Steps</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Thêm CSS Stylesheet</strong>
+                <div class="code-block">
+&lt;link rel="stylesheet" href="public/game-ui.css"&gt;
+                </div>
+                <p style="margin-top: 10px; color: #a0d4ff;">Thêm dòng này vào thẻ <code>&lt;head&gt;</code> của HTML</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Import Components vào MainMenuScene</strong>
+                <div class="code-block">
+import { GameModeSelector } from "./ui/GameModeSelector.js";
+import { GameUIOverlay } from "./ui/GameUIOverlay.js";
+import GameModeRegistry from "./gameModes/GameModeRegistry.js";
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Tạo Components trong create() method</strong>
+                <div class="code-block">
+create() {
+  const overlay = new GameUIOverlay(this);
+  overlay.createGameStartUI();
+  
+  const selector = new GameModeSelector(this, {
+    modes: GameModeRegistry.getAll(),
+    onStartGame: () => {
+      this.scene.start("PlanningScene", {
+        mode: selector.selectedMode
+      });
+    }
+  });
+  
+  selector.create();
+}
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Cleanup trong shutdown() method</strong>
+                <div class="code-block">
+shutdown() {
+  this.selector?.destroy();
+  this.overlay?.destroy();
+}
+                </div>
+            </div>
+        </section>
+
+        <!-- Hệ Thống Màu -->
+        <section class="section">
+            <h2>🎨 Hệ Thống Màu / Color System</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loại Màu</th>
+                        <th>Giá Trị</th>
+                        <th>Sử Dụng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nền Chính</td>
+                        <td><code>#0f1a2b</code></td>
+                        <td>Background chính</td>
+                    </tr>
+                    <tr>
+                        <td>Accent Cyan</td>
+                        <td><code>#00d4ff</code></td>
+                        <td>Viền, focus, highlight</td>
+                    </tr>
+                    <tr>
+                        <td>Accent Teal</td>
+                        <td><code>#2f8f6f</code></td>
+                        <td>Nút chính, action</td>
+                    </tr>
+                    <tr>
+                        <td>Accent Blue</td>
+                        <td><code>#2b5874</code></td>
+                        <td>Nút phụ</td>
+                    </tr>
+                    <tr>
+                        <td>Text Primary</td>
+                        <td><code>#ffffff</code></td>
+                        <td>Văn bản chính</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="section">
+            <h2>✨ Best Practices</h2>
+
+            <h3>Quản Lý Vòng Đời</h3>
+            <div class="comparison-table">
+                <div class="comparison-item good">
+                    <div class="code-block">
+create() {
+  this.selector = new GameModeSelector(this, {...});
+  this.selector.create();
+}
+
+shutdown() {
+  this.selector?.destroy();
+}
+                    </div>
+                </div>
+                <div class="comparison-item bad">
+                    <div class="code-block">
+update() {
+  // KHÔNG TẠO MỚI UI
+  // TẠI ĐÂY - CHẬM!
+  new GameModeSelector(this, {...});
+}
+                    </div>
+                </div>
+            </div>
+
+            <h3>Responsive Handling</h3>
+            <div class="comparison-table">
+                <div class="comparison-item good">
+                    <div class="code-block">
+this.scale.on('resize', (size) => {
+  this.overlay?.updateForScreenResize(
+    size.width, size.height
+  );
+});
+                    </div>
+                </div>
+                <div class="comparison-item bad">
+                    <div class="code-block">
+this.scale.on('resize', () => {
+  // KHÔNG TẠO MỚI
+  this.selector = new GameModeSelector(...);
+});
+                    </div>
+                </div>
+            </div>
+
+            <h3>Callback Functions</h3>
+            <div class="comparison-table">
+                <div class="comparison-item good">
+                    <div class="code-block">
+onModeSelected: (id) => 
+  this.handleMode(id),
+                    </div>
+                </div>
+                <div class="comparison-item bad">
+                    <div class="code-block">
+onModeSelected: function(id) {
+  // 'this' sẽ bị mất
+}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Responsive Breakpoints -->
+        <section class="section">
+            <h2>📱 Responsive Breakpoints</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thiết Bị</th>
+                        <th>Độ Rộng</th>
+                        <th>Scale</th>
+                        <th>Đặc Tính</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mobile</td>
+                        <td>&lt; 480px</td>
+                        <td>0.8x</td>
+                        <td>Font nhỏ, layout dọc, button lớn</td>
+                    </tr>
+                    <tr>
+                        <td>Tablet</td>
+                        <td>481px - 768px</td>
+                        <td>0.9x</td>
+                        <td>Font vừa, layout 1-2 cột</td>
+                    </tr>
+                    <tr>
+                        <td>Desktop</td>
+                        <td>&gt; 768px</td>
+                        <td>1.0x</td>
+                        <td>Font lớn, layout đầy đủ</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note">
+                <strong>💡 Lưu Ý:</strong> Touch targets tối thiểu 48x48px trên tất cả thiết bị cảm ứng.
+            </div>
+        </section>
+
+        <!-- Animations -->
+        <section class="section">
+            <h2>🎬 Animations & Transitions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Animation</th>
+                        <th>Duration</th>
+                        <th>Sử Dụng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>slideUp</td>
+                        <td>300ms</td>
+                        <td>Toast notifications</td>
+                    </tr>
+                    <tr>
+                        <td>spin</td>
+                        <td>2s</td>
+                        <td>Loading spinner</td>
+                    </tr>
+                    <tr>
+                        <td>fadeIn</td>
+                        <td>150ms</td>
+                        <td>Hover effects</td>
+                    </tr>
+                    <tr>
+                        <td>scaleDown</td>
+                        <td>100ms</td>
+                        <td>Button press</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- API Reference -->
+        <section class="section">
+            <h2>📚 API Reference</h2>
+
+            <h3>GameModeSelector Methods</h3>
+            <ul class="feature-list">
+                <li><code>create()</code> - Tạo UI elements</li>
+                <li><code>show()</code> - Hiển thị selector</li>
+                <li><code>hide()</code> - Ẩn selector</li>
+                <li><code>toggle()</code> - Bật/Tắt hiển thị</li>
+                <li><code>selectMode(id)</code> - Chọn chế độ</li>
+                <li><code>selectDifficulty(id)</code> - Chọn độ khó</li>
+                <li><code>refresh()</code> - Cập nhật UI</li>
+                <li><code>destroy()</code> - Xóa components</li>
+            </ul>
+
+            <h3>GameUIOverlay Methods</h3>
+            <ul class="feature-list">
+                <li><code>createGameStartUI()</code> - Tạo giao diện bắt đầu</li>
+                <li><code>createToast(msg, duration, type)</code> - Hiển thị thông báo</li>
+                <li><code>createLoadingScreen()</code> - Màn hình tải</li>
+                <li><code>updateForScreenResize(w, h)</code> - Cập nhật resize</li>
+                <li><code>destroy()</code> - Xóa tất cả elements</li>
+            </ul>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="section">
+            <h2>🔧 Troubleshooting</h2>
+
+            <div class="warning">
+                <strong>❌ Vấn đề:</strong> Giao diện không hiển thị
+                <p style="margin-top: 10px;"><strong>✓ Giải pháp:</strong></p>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Kiểm tra CSS file được load (<code>public/game-ui.css</code>)</li>
+                    <li>Kiểm tra components được tạo trong <code>create()</code></li>
+                    <li>Kiểm tra depth value (nên ≥ 1000)</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>❌ Vấn đề:</strong> Nút không click được
+                <p style="margin-top: 10px;"><strong>✓ Giải pháp:</strong></p>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Đảm bảo <code>setInteractive()</code> được gọi</li>
+                    <li>Kiểm tra pointer events không bị block</li>
+                    <li>Kiểm tra canvas pointer-events CSS</li>
+                </ul>
+            </div>
+
+            <div class="success">
+                <strong>💡 Tip:</strong> Sử dụng Phaser DevTools hoặc browser console để debug
+            </div>
+        </section>
+
+        <!-- Testing -->
+        <section class="section">
+            <h2>✅ Testing Checklist</h2>
+            <ul class="feature-list">
+                <li>Kiểm tra trên mobile (< 480px)</li>
+                <li>Kiểm tra trên tablet (481-768px)</li>
+                <li>Kiểm tra trên desktop (> 768px)</li>
+                <li>Kiểm tra landscape & portrait modes</li>
+                <li>Kiểm tra touch interactions</li>
+                <li>Kiểm tra keyboard navigation</li>
+                <li>Kiểm tra screen reader (accessibility)</li>
+                <li>Kiểm tra FPS (60 desktop, 30-45 mobile)</li>
+                <li>Kiểm tra memory leaks (shutdown)</li>
+                <li>Kiểm tra dark mode compatibility</li>
+            </ul>
+        </section>
+
+        <!-- Resources -->
+        <section class="section highlight">
+            <h2>📖 Tài Liệu & Tài Nguyên</h2>
+            <h3>Tài liệu dự án:</h3>
+            <ul class="feature-list">
+                <li><span class="file-path">GAME_UI_REDESIGN.md</span> - Thiết kế chi tiết</li>
+                <li><span class="file-path">UI_COMPONENTS_GUIDE.md</span> - Hướng dẫn nhà phát triển</li>
+                <li><span class="file-path">GameModeIntegrationExample.js</span> - Ví dụ tích hợp</li>
+            </ul>
+            
+            <h3>Tài liệu bên ngoài:</h3>
+            <ul class="feature-list">
+                <li><a href="https://photonstorm.github.io/phaser3-docs/" style="color: #7dd3fc;">Phaser 3 Documentation</a></li>
+                <li><a href="https://www.w3.org/WAI/WCAG21/quickref/" style="color: #7dd3fc;">WCAG 2.1 Guidelines</a></li>
+                <li><a href="https://web.dev/responsive-web-design-basics/" style="color: #7dd3fc;">Responsive Web Design</a></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p><strong>Game UI Redesign v1.0</strong></p>
+            <p>Cập nhật lần cuối: 2026-03-14</p>
+            <p style="margin-top: 15px; color: #5a7a90;">Developed by v0 Design Team</p>
+        </footer>
+    </div>
+</body>
+</html>
